@@ -21,7 +21,7 @@ plugins {
     id("com.jfrog.bintray") version "1.8.4"
 }
 group = "com.github.barakb"
-version = "0.0.9"
+version = "0.9.0"
 
 repositories {
     gradlePluginPortal()
@@ -154,7 +154,7 @@ bintray {
         repo = "maven"
         name = artifactName
         userOrg = "barakb"
-        githubRepo = githubRepo
+        githubRepo = "barakb/consul-client"
         vcsUrl = pomScmUrl
         description = "A Kotlin Consul client"
         setLabels("Kotlin", "Consul", "REST")
@@ -170,11 +170,11 @@ bintray {
             released = Date().toString()
             vcsTag = artifactVersion
             gpg.sign = true
-            mavenCentralSync.apply {
-                sync = true
-                user = project.findProperty("sonatypeUser").toString()
-                password = project.findProperty("sonatypePassword").toString()
-            }
+//            mavenCentralSync.apply {
+//                sync = false
+//                user = project.findProperty("sonatypeUser").toString()
+//                password = project.findProperty("sonatypePassword").toString()
+//            }
         }
     }
 }
