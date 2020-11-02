@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/barakb/consul-client.svg?branch=master)](https://travis-ci.org/barakb/consul-client)
+[![Build Status](https://travis-ci.org/barakb/consul-client.svg?branch=main)](https://travis-ci.org/barakb/consul-client)
 [![Download](https://api.bintray.com/packages/barakb/maven/consul-client/images/download.svg) ](https://bintray.com/barakb/maven/consul-client/_latestVersion)
 ### A Kotlin Consul client
 
