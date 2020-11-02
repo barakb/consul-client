@@ -17,7 +17,6 @@ I had 3 goals in mind when starting this work.
 
 To consume this project using maven add the following to your pom.xml
 
-
 ````Xml
 <dependency>
      <groupId>com.github.barakb</groupId>
