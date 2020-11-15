@@ -40,6 +40,10 @@ class ConsulClient(init: ConsulConfigBuilder.() -> Unit) : Closeable {
     @Suppress("unused")
     val config = Config(httpClient)
 
+    @Suppress("unused")
+    val session = Session(httpClient)
+
+
     class Agent(private val client: HttpClient) {
         @Suppress("unused")
         suspend fun list(wan: Boolean? = null, segment: String? = null): List<Member> {
@@ -466,7 +470,7 @@ class ConsulClient(init: ConsulConfigBuilder.() -> Unit) : Closeable {
         }
 
         @Suppress("unused")
-        suspend fun gatwayServices(gateway: String, dc: String?, ns: String?): JsonArray {
+        suspend fun gatewayServices(gateway: String, dc: String?, ns: String?): JsonArray {
             return client.get {
                 path = "catalog/gateway-services/$gateway"
                 param("dc", dc)
@@ -512,6 +516,81 @@ class ConsulClient(init: ConsulConfigBuilder.() -> Unit) : Closeable {
             }
         }
     }
+
+    class Session(private val client: HttpClient) {
+
+        @Suppress("unused")
+        enum class Behavior(val label: String) {
+            Release("release"),
+            Delete("delete"),
+        }
+
+        @Suppress("unused")
+        suspend fun create(
+            node: String,
+            dc: String? = null,
+            lockDelay: String? = null,
+            name: String? = null,
+            checks: List<String>? = null,
+            behavior: Behavior = Behavior.Release,
+            ttl: String? = null
+        ): String {
+            val res: Map<String, String> = client.put {
+                path = "session/create"
+                body = hashMapOf(
+                    ("dc" to dc),
+                    ("LockDelay" to lockDelay),
+                    ("Name" to name),
+                    ("Node" to node),
+                    ("Checks" to checks),
+                    ("Behavior" to behavior.label),
+                    ("TTL" to ttl),
+                ).filterValues { it != null }
+            }
+            @Suppress("MapGetWithNotNullAssertionOperator")
+            return res["ID"]!!
+        }
+
+        @Suppress("unused")
+        suspend fun delete(session: String, dc: String? = null): Boolean {
+            val str: String = client.put {
+                path = "session/destroy/$session"
+                body = hashMapOf(("dc" to dc)).filterValues { it != null }
+            }
+            return str.trim().toBoolean()
+        }
+
+        @Suppress("unused")
+        suspend fun read(session: String, dc: String? = null): List<SessionInfo> {
+            return client.get {
+                path = "session/info/$session"
+                param("dc", dc)
+            }
+        }
+
+        @Suppress("unused")
+        suspend fun listForNode(node: String, dc: String? = null): List<SessionInfo> {
+            return client.get {
+                path = "session/node/$node"
+                param("dc", dc)
+            }
+        }
+        @Suppress("unused")
+        suspend fun listActive(dc: String? = null): List<SessionInfo> {
+            return client.get {
+                path = "session/list"
+                param("dc", dc)
+            }
+        }
+        @Suppress("unused")
+        suspend fun renew(session: String, dc: String? = null): List<SessionInfo> {
+            return client.get {
+                path = "session/session/$session"
+                param("dc", dc)
+            }
+        }
+    }
+
 
     override fun close() {
         httpClient.close()

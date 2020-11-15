@@ -1,9 +1,10 @@
 package com.github.barakb.consul.data
 
 import com.google.gson.annotations.SerializedName
+import java.math.BigInteger
 
 data class Member(
-        @SerializedName("Addr") val address: String? = null,
+        @Suppress("SpellCheckingInspection") @SerializedName("Addr") val address: String? = null,
         @SerializedName("Name") val name: String? = null,
         @SerializedName("Port") val port: Int? = null,
         @SerializedName("Tags") val tags: Map<String, String> = mapOf(),
@@ -35,12 +36,12 @@ data class DebugConfig(
         @SerializedName("SkipLeaveOnInt") val skipLeaveOnInt: Boolean = false,
         @SerializedName("Datacenter") val datacenter: String? = null,
         @SerializedName("DataDir") val dataDir: String? = null,
-        @SerializedName("DNSRecursors") val recursors: List<String> = listOf(),
+        @Suppress("SpellCheckingInspection") @SerializedName("DNSRecursors") val recursors: List<String> = listOf(),
         @SerializedName("DNSDomain") val dnsDomain: String? = null,
         @SerializedName("LogLevel") val logLevel: String? = null,
         @SerializedName("NodeName") val nodeName: String? = null,
-        @SerializedName("ClientAddrs") val clientAddrs: List<String> = listOf(),
-        @SerializedName("BindAddr") val bindAddr: String? = null,
+        @Suppress("SpellCheckingInspection") @SerializedName("ClientAddrs") val clientAddrs: List<String> = listOf(),
+        @Suppress("SpellCheckingInspection") @SerializedName("BindAddr") val bindAddr: String? = null,
         @SerializedName("LeaveOnTerm") val leaveOnTerm: Boolean = false,
         @SerializedName("EnableDebug") val enableDebug: Boolean = false,
         @SerializedName("VerifyIncoming") val verifyIncoming: Boolean = false,
@@ -52,8 +53,8 @@ data class DebugConfig(
         @SerializedName("PidFile") val pidFile: String? = null,
         @SerializedName("EnableSyslog") val enableSyslog: Boolean = false,
         @SerializedName("RejoinAfterLeave") val rejoinAfterLeave: Boolean = false,
-        @SerializedName("AdvertiseAddrLAN") val advertiseAddrLAN: String? = null,
-        @SerializedName("AdvertiseAddrWAN") val advertiseAddrWAN: String? = null
+        @Suppress("SpellCheckingInspection") @SerializedName("AdvertiseAddrLAN") val advertiseAddrLAN: String? = null,
+        @Suppress("SpellCheckingInspection") @SerializedName("AdvertiseAddrWAN") val advertiseAddrWAN: String? = null
 )
 
 data class HealthCheck(
@@ -147,3 +148,15 @@ data class CatalogNode(
         @SerializedName("Services") val services: Map<String, Service>? = null, @SerializedName("Node") val node: Node? = null
 )
 
+data class SessionInfo(
+        @SerializedName("Node") val node: String,
+        @SerializedName("ID") val id: String,
+        @SerializedName("Name") val name: String,
+        @SerializedName("LockDelay") val localDelay: Long,
+        @SerializedName("Behavior") val behavior: String,
+        @SerializedName("TTL") val ttl: String,
+        @SerializedName("NodeChecks") val nodeChecks: List<String>,
+        @SerializedName("ServiceChecks") val serviceChecks: List<String>? = null,
+        @SerializedName("CreateIndex") val createIndex: BigInteger,
+        @SerializedName("ModifyIndex") val ModifyIndex: BigInteger
+)

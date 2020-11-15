@@ -15,5 +15,12 @@ fun main() = runBlocking {
 //        logger.info("$self")
         logger.info("${client.agent.metrics()}")
 //        logger.info("${client.agent.checks()}")
+        @Suppress("SpellCheckingInspection") val session = client.session.create(node = "barakb-mac.local")
+        logger.info("session created $session")
+        val info = client.session.read(session)
+        logger.info("info $info")
+        val deleted = client.session.delete(session)
+        logger.info("deleted: $deleted")
+
     }
 }
