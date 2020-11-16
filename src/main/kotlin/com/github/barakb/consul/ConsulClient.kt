@@ -43,6 +43,9 @@ class ConsulClient(init: ConsulConfigBuilder.() -> Unit) : Closeable {
     @Suppress("unused")
     val session = Session(httpClient)
 
+    @Suppress("unused")
+    val kv = Kv(httpClient)
+
 
     class Agent(private val client: HttpClient) {
         @Suppress("unused")
@@ -150,58 +153,58 @@ class ConsulClient(init: ConsulConfigBuilder.() -> Unit) : Closeable {
 
         @Suppress("unused", "SpellCheckingInspection")
         suspend fun registerCheck(
-                name: String,
-                args: List<String>,
-                id: String? = null,
-                interval: String? = null,
-                notes: String? = null,
-                deregisterCriticalServiceAfter: String? = null,
-                aliasNode: String? = null,
-                aliasService: String? = null,
-                dockerContainerId: String? = null,
-                grpc: String? = null,
-                grpcUseTLS: Boolean? = null,
-                http: String? = null,
-                method: String? = null,
-                body: String? = null,
-                header: Map<String, List<String>>? = null,
-                timeout: Duration? = null,
-                outputMaxSize: Int? = null,
-                tlsSkipVerify: Boolean? = null,
-                tcp: String? = null,
-                ttl: String? = null,
-                serviceId: String? = null,
-                status: String? = null,
-                successBeforePassing: Int? = null,
-                failureBeforeCritical: Int? = null,
+            name: String,
+            args: List<String>,
+            id: String? = null,
+            interval: String? = null,
+            notes: String? = null,
+            deregisterCriticalServiceAfter: String? = null,
+            aliasNode: String? = null,
+            aliasService: String? = null,
+            dockerContainerId: String? = null,
+            grpc: String? = null,
+            grpcUseTLS: Boolean? = null,
+            http: String? = null,
+            method: String? = null,
+            body: String? = null,
+            header: Map<String, List<String>>? = null,
+            timeout: Duration? = null,
+            outputMaxSize: Int? = null,
+            tlsSkipVerify: Boolean? = null,
+            tcp: String? = null,
+            ttl: String? = null,
+            serviceId: String? = null,
+            status: String? = null,
+            successBeforePassing: Int? = null,
+            failureBeforeCritical: Int? = null,
         ): Map<String, HealthCheck> {
             return client.put {
                 path = "agent/check/register"
                 this.body = mapOf(
-                        ("Name" to name),
-                        ("Args" to args),
-                        ("Id" to id),
-                        ("Interval" to interval),
-                        ("Notes" to notes),
-                        ("DeregisterCriticalServiceAfter" to deregisterCriticalServiceAfter),
-                        ("AliasNode" to aliasNode),
-                        ("AliasService" to aliasService),
-                        ("DockerContainerId" to dockerContainerId),
-                        ("GRPC" to grpc),
-                        ("GRPCUseTLS" to grpcUseTLS),
-                        ("HTTP" to http),
-                        ("Method" to method),
-                        ("Body" to body),
-                        ("Header" to header),
-                        ("Timeout" to timeout),
-                        ("OutputMaxSize" to outputMaxSize),
-                        ("TLSSkipVerify" to tlsSkipVerify),
-                        ("TCP" to tcp),
-                        ("TTL" to ttl),
-                        ("ServiceId" to serviceId),
-                        ("Status" to status),
-                        ("SuccessBeforePassing" to successBeforePassing),
-                        ("FailureBeforeCritical" to failureBeforeCritical)
+                    ("Name" to name),
+                    ("Args" to args),
+                    ("Id" to id),
+                    ("Interval" to interval),
+                    ("Notes" to notes),
+                    ("DeregisterCriticalServiceAfter" to deregisterCriticalServiceAfter),
+                    ("AliasNode" to aliasNode),
+                    ("AliasService" to aliasService),
+                    ("DockerContainerId" to dockerContainerId),
+                    ("GRPC" to grpc),
+                    ("GRPCUseTLS" to grpcUseTLS),
+                    ("HTTP" to http),
+                    ("Method" to method),
+                    ("Body" to body),
+                    ("Header" to header),
+                    ("Timeout" to timeout),
+                    ("OutputMaxSize" to outputMaxSize),
+                    ("TLSSkipVerify" to tlsSkipVerify),
+                    ("TCP" to tcp),
+                    ("TTL" to ttl),
+                    ("ServiceId" to serviceId),
+                    ("Status" to status),
+                    ("SuccessBeforePassing" to successBeforePassing),
+                    ("FailureBeforeCritical" to failureBeforeCritical)
                 ).filterValues { it != null }
             }
         }
@@ -268,38 +271,38 @@ class ConsulClient(init: ConsulConfigBuilder.() -> Unit) : Closeable {
 
         @Suppress("unused")
         suspend fun register(
-                name: String,
-                id: String? = null,
-                tags: List<String>? = null,
-                address: String? = null,
-                taggedAddress: Map<String, *>? = null,
-                meta: Map<String, String>? = null,
-                port: Int? = null,
-                kind: String? = null,
-                proxy: ServiceProxy? = null,
-                connect: Connect? = null,
-                check: ServiceCheck? = null,
-                enableTagOverride: Boolean? = null,
-                weights: ServiceWeights? = null,
-                replaceExistingChecks: Boolean? = null
+            name: String,
+            id: String? = null,
+            tags: List<String>? = null,
+            address: String? = null,
+            taggedAddress: Map<String, *>? = null,
+            meta: Map<String, String>? = null,
+            port: Int? = null,
+            kind: String? = null,
+            proxy: ServiceProxy? = null,
+            connect: Connect? = null,
+            check: ServiceCheck? = null,
+            enableTagOverride: Boolean? = null,
+            weights: ServiceWeights? = null,
+            replaceExistingChecks: Boolean? = null
         ) {
             return client.put {
                 path = "agent/service/register"
                 param("replace-existing-checks", replaceExistingChecks)
                 body = mapOf(
-                        ("Name" to name),
-                        ("Id" to id),
-                        ("Tags" to tags),
-                        ("Address" to address),
-                        ("TaggedAddress" to taggedAddress),
-                        ("Meta" to meta),
-                        ("Port" to port),
-                        ("Kind" to kind),
-                        ("Proxy" to proxy),
-                        ("Connect" to connect),
-                        ("Check" to check),
-                        ("EnableTagOverride" to enableTagOverride),
-                        ("Weights" to weights)
+                    ("Name" to name),
+                    ("Id" to id),
+                    ("Tags" to tags),
+                    ("Address" to address),
+                    ("TaggedAddress" to taggedAddress),
+                    ("Meta" to meta),
+                    ("Port" to port),
+                    ("Kind" to kind),
+                    ("Proxy" to proxy),
+                    ("Connect" to connect),
+                    ("Check" to check),
+                    ("EnableTagOverride" to enableTagOverride),
+                    ("Weights" to weights)
                 ).filterValues { it != null }
             }
         }
@@ -321,14 +324,19 @@ class ConsulClient(init: ConsulConfigBuilder.() -> Unit) : Closeable {
         }
 
         @Suppress("unused")
-        suspend fun authorizeConnect(target: String, clientCertURI: String, clientCertSerial: String, namespace: String? = null): JsonObject {
+        suspend fun authorizeConnect(
+            target: String,
+            clientCertURI: String,
+            clientCertSerial: String,
+            namespace: String? = null
+        ): JsonObject {
             return client.post {
                 path = "agent/connect/authorize"
                 body = mapOf(
-                        ("Target" to target),
-                        ("ClientCertURI" to clientCertURI),
-                        ("ClientCertSerial" to clientCertSerial),
-                        ("Namespace" to namespace),
+                    ("Target" to target),
+                    ("ClientCertURI" to clientCertURI),
+                    ("ClientCertSerial" to clientCertSerial),
+                    ("Namespace" to namespace),
                 ).filterValues { it != null }
             }
         }
@@ -351,52 +359,52 @@ class ConsulClient(init: ConsulConfigBuilder.() -> Unit) : Closeable {
     class Catalog(private val client: HttpClient) {
         @Suppress("unused")
         suspend fun register(
-                node: String,
-                id: String? = null,
-                address: String? = null,
-                datacenter: String? = null,
-                taggedAddress: Map<String, *>? = null,
-                meta: Map<String, String>? = null,
-                service: Service? = null,
-                interval: String? = null,
-                check: ServiceCheck? = null,
-                skipNodeUpdate: Boolean? = null,
-                ns: String? = null
+            node: String,
+            id: String? = null,
+            address: String? = null,
+            datacenter: String? = null,
+            taggedAddress: Map<String, *>? = null,
+            meta: Map<String, String>? = null,
+            service: Service? = null,
+            interval: String? = null,
+            check: ServiceCheck? = null,
+            skipNodeUpdate: Boolean? = null,
+            ns: String? = null
         ) {
             return client.put {
                 path = "catalog/register"
                 body = mapOf(
-                        ("Node" to node),
-                        ("ID" to id),
-                        ("Datacenter" to datacenter),
-                        ("Address" to address),
-                        ("TaggedAddresses" to taggedAddress),
-                        ("NodeMeta" to meta),
-                        ("Service" to service),
-                        ("Interval" to interval),
-                        ("Check" to check),
-                        ("SkipNodeUpdate" to skipNodeUpdate),
-                        ("ns" to ns),
+                    ("Node" to node),
+                    ("ID" to id),
+                    ("Datacenter" to datacenter),
+                    ("Address" to address),
+                    ("TaggedAddresses" to taggedAddress),
+                    ("NodeMeta" to meta),
+                    ("Service" to service),
+                    ("Interval" to interval),
+                    ("Check" to check),
+                    ("SkipNodeUpdate" to skipNodeUpdate),
+                    ("ns" to ns),
                 ).filterValues { it != null }
             }
         }
 
         @Suppress("unused", "SpellCheckingInspection")
         suspend fun deregister(
-                node: String,
-                datacenter: String? = null,
-                checkId: String? = null,
-                serviceId: String? = null,
-                namespace: String? = null,
+            node: String,
+            datacenter: String? = null,
+            checkId: String? = null,
+            serviceId: String? = null,
+            namespace: String? = null,
         ) {
             return client.put {
                 path = "catalog/register"
                 body = mapOf(
-                        ("Node" to node),
-                        ("Datacenter" to datacenter),
-                        ("CheckID" to checkId),
-                        ("ServiceID" to serviceId),
-                        ("Namespace" to namespace)
+                    ("Node" to node),
+                    ("Datacenter" to datacenter),
+                    ("CheckID" to checkId),
+                    ("ServiceID" to serviceId),
+                    ("Namespace" to namespace)
                 ).filterValues { it != null }
             }
         }
@@ -430,7 +438,15 @@ class ConsulClient(init: ConsulConfigBuilder.() -> Unit) : Closeable {
         }
 
         @Suppress("unused")
-        suspend fun service(service: String, near: String?, dc: String?, nodeMeta: String?, tag: String?, ns: String?, filter: String?): CatalogService {
+        suspend fun service(
+            service: String,
+            near: String?,
+            dc: String?,
+            nodeMeta: String?,
+            tag: String?,
+            ns: String?,
+            filter: String?
+        ): CatalogService {
             return client.get {
                 path = "catalog/services/$service"
                 param("dc", dc)
@@ -491,22 +507,25 @@ class ConsulClient(init: ConsulConfigBuilder.() -> Unit) : Closeable {
                 body = mapOf(("Kind" to kind), ("Name" to name), (key to value))
             }
         }
+
         @Suppress("unused")
-        suspend fun read(kind: String, name: String, dc: String?, ns: String?) : JsonObject {
+        suspend fun read(kind: String, name: String, dc: String?, ns: String?): JsonObject {
             return client.get {
                 path = "config/$kind/$name"
                 param("dc", dc)
                 param("ns", ns)
             }
         }
+
         @Suppress("unused")
-        suspend fun list(kind: String, dc: String?, ns: String?) : JsonArray {
+        suspend fun list(kind: String, dc: String?, ns: String?): JsonArray {
             return client.get {
                 path = "config/$kind"
                 param("dc", dc)
                 param("ns", ns)
             }
         }
+
         @Suppress("unused")
         suspend fun delete(kind: String, name: String, dc: String?, ns: String?) {
             return client.delete {
@@ -575,6 +594,7 @@ class ConsulClient(init: ConsulConfigBuilder.() -> Unit) : Closeable {
                 param("dc", dc)
             }
         }
+
         @Suppress("unused")
         suspend fun listActive(dc: String? = null): List<SessionInfo> {
             return client.get {
@@ -582,6 +602,7 @@ class ConsulClient(init: ConsulConfigBuilder.() -> Unit) : Closeable {
                 param("dc", dc)
             }
         }
+
         @Suppress("unused")
         suspend fun renew(session: String, dc: String? = null): List<SessionInfo> {
             return client.get {
@@ -591,6 +612,59 @@ class ConsulClient(init: ConsulConfigBuilder.() -> Unit) : Closeable {
         }
     }
 
+    class Kv(private val client: HttpClient) {
+        @Suppress("unused")
+        suspend fun read(
+            key: String, dc: String? = null, recurse: Boolean? = null
+        ): List<KVMetadata> {
+            return client.get {
+                path = "kv/$key"
+                param("dc", dc)
+                param("recurse", recurse)
+            }
+        }
+
+        @Suppress("unused")
+        suspend fun write(
+            key: String,
+            value: Any,//todo support ByteArray
+            dc: String? = null,
+            flags: Int? = null,
+            cas: Int? = null,
+            acquire: String? = null,
+            release: String? = null,
+        ): Boolean {
+            val str: String = client.put {
+                path = "kv/$key"
+                param("dc", dc)
+                param("flags", flags)
+                param("cas", cas)
+                param("acquire", acquire)
+                param("release", release)
+                body = value
+            }
+            return str.trim().toBoolean()
+        }
+
+        @Suppress("unused")
+        suspend fun delete(
+            key: String,
+            dc: String? = null,
+            recurse: Boolean? = null,
+            cas: Int? = null,
+        ): Boolean {
+            val str: String = client.delete {
+                path = "kv/$key"
+                param("dc", dc)
+                body = mapOf(
+                    ("dc" to dc),
+                    ("recurse" to recurse),
+                    ("cas" to cas),
+                ).filterValues { it != null }
+            }
+            return str.trim().toBoolean()
+        }
+    }
 
     override fun close() {
         httpClient.close()
@@ -598,14 +672,14 @@ class ConsulClient(init: ConsulConfigBuilder.() -> Unit) : Closeable {
 
     private fun createHttpClient(config: ConsulConfig): HttpClient {
         val connectionManager = PoolingAsyncClientConnectionManagerBuilder.create()
-                .setTlsStrategy(
-                        ClientTlsStrategyBuilder.create()
-                                .setSslContext(SSLContexts.createSystemDefault())
-                                .setTlsVersions(TLS.V_1_3, TLS.V_1_2)
-                                .setHostnameVerifier(NoopHostnameVerifier.INSTANCE)
-                                .setSslContext(SSLContextBuilder().loadTrustMaterial(TrustSelfSignedStrategy.INSTANCE).build())
-                                .build()
-                )
+            .setTlsStrategy(
+                ClientTlsStrategyBuilder.create()
+                    .setSslContext(SSLContexts.createSystemDefault())
+                    .setTlsVersions(TLS.V_1_3, TLS.V_1_2)
+                    .setHostnameVerifier(NoopHostnameVerifier.INSTANCE)
+                    .setSslContext(SSLContextBuilder().loadTrustMaterial(TrustSelfSignedStrategy.INSTANCE).build())
+                    .build()
+            )
             .setPoolConcurrencyPolicy(PoolConcurrencyPolicy.STRICT)
             .setConnPoolPolicy(PoolReusePolicy.LIFO)
             .setConnectionTimeToLive(TimeValue.ofMinutes(1L))
@@ -621,11 +695,11 @@ class ConsulClient(init: ConsulConfigBuilder.() -> Unit) : Closeable {
                 client {
                     setConnectionManager(connectionManager)
                     setDefaultRequestConfig(
-                            RequestConfig.custom()
-                                    .setConnectTimeout(Timeout.ofSeconds(5))
-                                    .setResponseTimeout(Timeout.ofSeconds(5))
-                                    .setCookieSpec(StandardCookieSpec.STRICT)
-                                    .build()
+                        RequestConfig.custom()
+                            .setConnectTimeout(Timeout.ofSeconds(5))
+                            .setResponseTimeout(Timeout.ofSeconds(5))
+                            .setCookieSpec(StandardCookieSpec.STRICT)
+                            .build()
                     )
                     setVersionPolicy(HttpVersionPolicy.NEGOTIATE)
                 }
@@ -649,7 +723,7 @@ class ConsulConfigBuilder {
 }
 
 data class ConsulConfig(
-        var address: String
+    var address: String
 )
 
 fun main() {
