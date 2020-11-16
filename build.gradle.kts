@@ -21,12 +21,12 @@ plugins {
     id("com.jfrog.bintray") version "1.8.4"
 }
 group = "com.github.barakb"
-version = "0.9.0"
+version = "0.9.1"
 
 repositories {
     gradlePluginPortal()
-    mavenCentral()
     jcenter()
+    mavenCentral()
     mavenLocal()
 }
 
