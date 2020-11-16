@@ -1,5 +1,7 @@
 [![Build Status](https://travis-ci.org/barakb/consul-client.svg?branch=main)](https://travis-ci.org/barakb/consul-client)
 [![Download](https://api.bintray.com/packages/barakb/maven/consul-client/images/download.svg) ](https://bintray.com/barakb/maven/consul-client/_latestVersion)
+[![GitHub License](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg?style=flat)](https://www.apache.org/licenses/LICENSE-2.0)
+
 ### A Kotlin Consul client
 
 I had 3 goals in mind when starting this work.
