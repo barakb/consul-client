@@ -21,6 +21,7 @@ import org.apache.hc.core5.ssl.SSLContexts
 import org.apache.hc.core5.util.TimeValue
 import org.apache.hc.core5.util.Timeout
 import java.io.Closeable
+import java.math.BigInteger
 import java.time.Duration
 
 @Suppress("unused")
@@ -417,7 +418,8 @@ class ConsulClient(init: ConsulConfigBuilder.() -> Unit) : Closeable {
         }
 
         @Suppress("unused")
-        suspend fun nodes(dc: String?, near: String?, nodeMeta: String?, filter: String?): List<Node> {
+        suspend fun nodes(dc: String? = null, near: String? = null, nodeMeta: String? = null,
+                          filter: String? = null): List<Node> {
             return client.get {
                 path = "catalog/nodes"
                 param("dc", dc)
@@ -428,7 +430,7 @@ class ConsulClient(init: ConsulConfigBuilder.() -> Unit) : Closeable {
         }
 
         @Suppress("unused")
-        suspend fun services(dc: String?, nodeMeta: String?, ns: String?): Map<String, List<String>> {
+        suspend fun services(dc: String? = null, nodeMeta: String? = null, ns: String? = null): Map<String, List<String>> {
             return client.get {
                 path = "catalog/services"
                 param("dc", dc)
@@ -440,12 +442,12 @@ class ConsulClient(init: ConsulConfigBuilder.() -> Unit) : Closeable {
         @Suppress("unused")
         suspend fun service(
             service: String,
-            near: String?,
-            dc: String?,
-            nodeMeta: String?,
-            tag: String?,
-            ns: String?,
-            filter: String?
+            near: String? = null,
+            dc: String? = null,
+            nodeMeta: String? = null,
+            tag: String? = null,
+            ns: String? = null,
+            filter: String? = null
         ): CatalogService {
             return client.get {
                 path = "catalog/services/$service"
@@ -466,7 +468,7 @@ class ConsulClient(init: ConsulConfigBuilder.() -> Unit) : Closeable {
         }
 
         @Suppress("unused")
-        suspend fun node(node: String, dc: String?, ns: String?, filter: String?): CatalogNode {
+        suspend fun node(node: String, dc: String? = null, ns: String? = null, filter: String? = null): CatalogNode {
             return client.get {
                 path = "catalog/node/$node"
                 param("dc", dc)
@@ -476,7 +478,7 @@ class ConsulClient(init: ConsulConfigBuilder.() -> Unit) : Closeable {
         }
 
         @Suppress("unused")
-        suspend fun nodeServices(node: String, dc: String?, ns: String?, filter: String?): CatalogNode {
+        suspend fun nodeServices(node: String, dc: String? = null, ns: String? = null, filter: String? = null): CatalogNode {
             return client.get {
                 path = "catalog/node-services/$node"
                 param("dc", dc)
@@ -486,7 +488,7 @@ class ConsulClient(init: ConsulConfigBuilder.() -> Unit) : Closeable {
         }
 
         @Suppress("unused")
-        suspend fun gatewayServices(gateway: String, dc: String?, ns: String?): JsonArray {
+        suspend fun gatewayServices(gateway: String, dc: String? = null, ns: String? = null): JsonArray {
             return client.get {
                 path = "catalog/gateway-services/$gateway"
                 param("dc", dc)
@@ -498,7 +500,8 @@ class ConsulClient(init: ConsulConfigBuilder.() -> Unit) : Closeable {
 
     class Config(private val client: HttpClient) {
         @Suppress("unused")
-        suspend fun apply(kind: String, name: String, key: String, value: String, dc: String?, cas: Int?, ns: String?) {
+        suspend fun apply(kind: String, name: String, key: String, value: String,
+                          dc: String? = null, cas: Int? = null, ns: String? = null) {
             return client.put {
                 path = "config"
                 param("dc", dc)
@@ -509,7 +512,7 @@ class ConsulClient(init: ConsulConfigBuilder.() -> Unit) : Closeable {
         }
 
         @Suppress("unused")
-        suspend fun read(kind: String, name: String, dc: String?, ns: String?): JsonObject {
+        suspend fun read(kind: String, name: String, dc: String? = null, ns: String? = null): JsonObject {
             return client.get {
                 path = "config/$kind/$name"
                 param("dc", dc)
@@ -518,7 +521,7 @@ class ConsulClient(init: ConsulConfigBuilder.() -> Unit) : Closeable {
         }
 
         @Suppress("unused")
-        suspend fun list(kind: String, dc: String?, ns: String?): JsonArray {
+        suspend fun list(kind: String, dc: String? = null, ns: String? = null): JsonArray {
             return client.get {
                 path = "config/$kind"
                 param("dc", dc)
@@ -527,7 +530,7 @@ class ConsulClient(init: ConsulConfigBuilder.() -> Unit) : Closeable {
         }
 
         @Suppress("unused")
-        suspend fun delete(kind: String, name: String, dc: String?, ns: String?) {
+        suspend fun delete(kind: String, name: String, dc: String? = null, ns: String? = null) {
             return client.delete {
                 path = "config/$kind/$name"
                 param("dc", dc)
@@ -546,10 +549,10 @@ class ConsulClient(init: ConsulConfigBuilder.() -> Unit) : Closeable {
 
         @Suppress("unused")
         suspend fun create(
-            node: String,
+            name: String,
+            node: String? = null,
             dc: String? = null,
             lockDelay: String? = null,
-            name: String? = null,
             checks: List<String>? = null,
             behavior: Behavior = Behavior.Release,
             ttl: String? = null
@@ -615,19 +618,21 @@ class ConsulClient(init: ConsulConfigBuilder.() -> Unit) : Closeable {
     class Kv(private val client: HttpClient) {
         @Suppress("unused")
         suspend fun read(
-            key: String, dc: String? = null, recurse: Boolean? = null
-        ): List<KVMetadata> {
+            key: String, dc: String? = null, recurse: Boolean? = null, index:BigInteger? = null, wait: String? = null
+        ): List<KVMetadata>? {
             return client.get {
                 path = "kv/$key"
                 param("dc", dc)
                 param("recurse", recurse)
+                param("index", index)
+                param("wait", wait)
             }
         }
 
         @Suppress("unused")
         suspend fun write(
             key: String,
-            value: Any,//todo support ByteArray
+            value: Any,
             dc: String? = null,
             flags: Int? = null,
             cas: Int? = null,
@@ -697,7 +702,7 @@ class ConsulClient(init: ConsulConfigBuilder.() -> Unit) : Closeable {
                     setDefaultRequestConfig(
                         RequestConfig.custom()
                             .setConnectTimeout(Timeout.ofSeconds(5))
-                            .setResponseTimeout(Timeout.ofSeconds(5))
+                            .setResponseTimeout(Timeout.ofSeconds(60 * 5 + 10))
                             .setCookieSpec(StandardCookieSpec.STRICT)
                             .build()
                     )

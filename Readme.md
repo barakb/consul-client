@@ -5,12 +5,7 @@
 
 ### A Kotlin Consul client
 
-I had 3 goals in mind when starting this work.
-
-1. Fully async code no blocking threads.
-2. Easy to compose both sequentially and concurrently
-3. Minimum dependencies.
-4. Small
+A Kotlin lightweight fully async consul client with minimal dependencies.  
 
      
 
@@ -20,7 +15,7 @@ To consume this project using maven add the following to your pom.xml
 <dependency>
      <groupId>com.github.barakb</groupId>
      <artifactId>consul-client</artifactId>
-     <version>0.9.1</version>
+     <version>0.9.2</version>
 </dependency>
 ````
 
@@ -28,7 +23,7 @@ Or gradle
 
 ````kotlin
 
-implementation("com.github.barakb:consul-client:0.9.1")
+implementation("com.github.barakb:consul-client:0.9.2")
 ````
 
 

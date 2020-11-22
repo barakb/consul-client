@@ -1,5 +1,7 @@
 package com.github.barakb.consul.data
 
+import com.github.barakb.http.HttpHeader
+import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import java.math.BigInteger
 import java.util.*
@@ -125,11 +127,11 @@ data class TaggedAddresses(
 )
 
 data class Node(
-    @SerializedName("Datacenter") val datacenter: String? = null,
+    @SerializedName("Node") val name: String,
+    @SerializedName("Address") val address: String,
+    @SerializedName("Datacenter") val datacenter: String,
     @SerializedName("TaggedAddresses") val taggedAddresses: TaggedAddresses? = null,
     @SerializedName("Meta") val meta: Map<String, String>? = null,
-    @SerializedName("Node") val node: String? = null,
-    @SerializedName("Address") val address: String? = null
 )
 
 data class SidecarService(
@@ -181,14 +183,20 @@ data class KVMetadata(
     @SerializedName("CreateIndex") val createIndex: BigInteger,
     @SerializedName("ModifyIndex") val modifyIndex: BigInteger,
     @SerializedName("LockIndex") val lockIndex: BigInteger,
-    @SerializedName("Session") val session: String?,
+    @SerializedName("Session") val session: String? = null,
     @SerializedName("Key") val key: String,
     @SerializedName("Flags") val flags: Int,
     @SerializedName("Value") val value: String,
+    @Expose(serialize = false,deserialize = false)
+    @HttpHeader("X-Consul-Index")
+    var xConsulIndex: String? = null
 ) {
     @Suppress("unused")
     fun decoded(): ByteArray {
         return Base64.getDecoder().decode(value)
+    }
+    fun consulIndex(): BigInteger {
+        return BigInteger(xConsulIndex!!)
     }
 }
 
