@@ -23,10 +23,13 @@ import org.apache.hc.core5.util.Timeout
 import java.io.Closeable
 import java.math.BigInteger
 import java.time.Duration
+import kotlin.time.ExperimentalTime
+import kotlin.time.toKotlinDuration
 
 @Suppress("unused")
 private val logger = KotlinLogging.logger {}
 
+@ExperimentalTime
 @Suppress("unused")
 class ConsulClient(init: ConsulConfigBuilder.() -> Unit) : Closeable {
     private val consulConfig = ConsulConfigBuilder().apply(init).build()
@@ -618,7 +621,12 @@ class ConsulClient(init: ConsulConfigBuilder.() -> Unit) : Closeable {
     class Kv(private val client: HttpClient) {
         @Suppress("unused")
         suspend fun read(
-            key: String, dc: String? = null, recurse: Boolean? = null, index:BigInteger? = null, wait: String? = null
+            key: String,
+            dc: String? = null,
+            recurse: Boolean? = null,
+            index:BigInteger? = null,
+            wait: String? = null,
+            timeout: Duration = Duration.ofMinutes(15)
         ): List<KVMetadata>? {
             return client.get {
                 path = "kv/$key"
@@ -626,6 +634,7 @@ class ConsulClient(init: ConsulConfigBuilder.() -> Unit) : Closeable {
                 param("recurse", recurse)
                 param("index", index)
                 param("wait", wait)
+                responseTimeout = timeout.toKotlinDuration()
             }
         }
 
@@ -702,7 +711,7 @@ class ConsulClient(init: ConsulConfigBuilder.() -> Unit) : Closeable {
                     setDefaultRequestConfig(
                         RequestConfig.custom()
                             .setConnectTimeout(Timeout.ofSeconds(5))
-                            .setResponseTimeout(Timeout.ofSeconds(60 * 5 + 10))
+                            .setResponseTimeout(Timeout.ofSeconds(5))
                             .setCookieSpec(StandardCookieSpec.STRICT)
                             .build()
                     )
