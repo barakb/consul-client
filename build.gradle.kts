@@ -18,7 +18,7 @@ plugins {
     application
     id("com.adarshr.test-logger") version "2.1.0"
     `maven-publish`
-    id("com.jfrog.bintray") version "1.8.4"
+    id("com.jfrog.bintray") version "1.8.5"
 }
 group = "com.github.barakb"
 version = "0.9.3"
