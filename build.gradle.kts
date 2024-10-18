@@ -6,7 +6,7 @@ import java.util.*
 
 val coroutinesVersion = "1.4.1"
 val jupiterVersion = "5.6.2"
-val logbackVersion = "1.2.3"
+val logbackVersion = "1.5.11"
 val kotlinLoginVersion = "1.8.3"
 val slf4jApiVersoion = "1.7.30"
 val gsonVersion = "2.8.6"
